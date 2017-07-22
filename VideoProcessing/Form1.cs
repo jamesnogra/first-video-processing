@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebCamLib;
-using ImageProcess2;
 using System.Drawing.Imaging;
 
 namespace VideoProcessing
@@ -18,7 +12,7 @@ namespace VideoProcessing
         Device[] allDevices;
         Bitmap source, staticLiveImage, bgImage;
         byte edgeDetectType;
-        bool startBroadcast = false;
+        bool startBroadcast = false, videoFeedSet = false, bgStaticSet = false, backImageSet = false;
         int width = 640, height = 480;
 
         public Form1()
@@ -30,6 +24,7 @@ namespace VideoProcessing
         {
             allDevices = DeviceManager.GetAllDevices();
             allDevices[0].ShowWindow(pictureBox1);
+            videoFeedSet = true;
             timer1.Enabled = true;
         }
 
@@ -39,27 +34,15 @@ namespace VideoProcessing
             // this code captures snapshots
             IDataObject data;
             Image bmap;
-            //int edgeDetectThreshold;
             allDevices[0].Sendmessage();
             data = Clipboard.GetDataObject();
             bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
             source = new Bitmap(bmap);
-            //BitmapFilter.Resize(source, width, height, true);
 
             if (startBroadcast)
             {
                 this.CustomSubtract(source, staticLiveImage, bgImage, (byte)thresholdBar.Value);
             }
-
-
-            //grayscale the image for easier image processing
-            /*BitmapFilter.GrayScale(source);
-
-            if (edgeDetectType != 0)
-            {
-                edgeDetectThreshold = thresholdBar.Value;
-                BitmapFilter.EdgeDetectConvolution(source, edgeDetectType, (byte)edgeDetectThreshold);
-            }*/
 
             pictureBox2.Image = source;
         }
@@ -91,6 +74,21 @@ namespace VideoProcessing
 
         private void startBroadcastingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!videoFeedSet)
+            {
+                MessageBox.Show("Connect the camera first.");
+                return;
+            }
+            if (!backImageSet)
+            {
+                MessageBox.Show("Open a background first.");
+                return;
+            }
+            if (!bgStaticSet)
+            {
+                MessageBox.Show("Capture and set a background first.");
+                return;
+            }
             startBroadcast = true;
         }
 
@@ -103,10 +101,9 @@ namespace VideoProcessing
         {
             Bitmap newBg = new Bitmap(browseBGImageDialog.FileName);
             bgImage = new Bitmap(width, height);
-            //BitmapFilter.Resize(bgImage, 640, 480, true);
             this.CustomResize(ref newBg, ref bgImage, width, height);
-            //MessageBox.Show("Resized to " + bgImage.Width + "x" + bgImage.Height);
             backgroundImage.Image = bgImage;
+            backImageSet = true;
         }
 
         private void setStaticImageFromLiveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,9 +114,8 @@ namespace VideoProcessing
             data = Clipboard.GetDataObject();
             bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
             staticLiveImage = new Bitmap(bmap);
-            //BitmapFilter.Resize(staticLiveImage, width, height, false);
             staticImageFromLive.Image = staticLiveImage;
-            //MessageBox.Show("Resized to " + staticLiveImage.Width + "x" + staticLiveImage.Height);
+            bgStaticSet = true;
         }
 
         public bool CustomSubtract(Bitmap source, Bitmap staticImg, Bitmap bg, byte threshold)
