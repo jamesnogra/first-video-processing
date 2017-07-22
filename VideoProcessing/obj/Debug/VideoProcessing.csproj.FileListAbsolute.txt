@@ -1,0 +1,9 @@
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\bin\Debug\VideoProcessing.exe.config
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\bin\Debug\VideoProcessing.exe
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\bin\Debug\VideoProcessing.pdb
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.csprojResolveAssemblyReference.cache
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.Form1.resources
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.Properties.Resources.resources
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.csproj.GenerateResource.Cache
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.exe
+c:\users\james\documents\visual studio 2017\VertexAndEdges\VideoProcessing\VideoProcessing\obj\Debug\VideoProcessing.pdb
